@@ -1,0 +1,28 @@
+---
+title: "Collaboration and Clean up"
+author: "Team_2"
+date: "12/24/2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# If the value in Street 2 duplicates the value in Street 1, remove the value in Street 2
+ 
+```{r remove duplicates, echo=TRUE}
+ 
+ #  If the value in Street 2 duplicates the value in Street 1, 
+ # this code will remove the value in Street 2
+
+ 
+ i = 1
+
+ while(i < nrow(data_filled )) 
+ {
+  if(data_filled$Street[i] == data_filled$Street.2 [i]) 
+   {
+     data_filled$Street.2 [i] = ""
+   }
+   i = i+1
+ }
+```
