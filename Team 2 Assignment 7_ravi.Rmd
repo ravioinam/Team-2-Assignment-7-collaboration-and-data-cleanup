@@ -1,0 +1,52 @@
+---
+title: "Collaboration and Clean up"
+author: "Ravi"
+date: "12/24/2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Assignment #7-collaboration on repository and data cleanup
+ 
+ 
+ ## Populate the missing values in the Area variable with an appropriate values (Birmingham, Coventry, Dudley, Sandwell, Solihull, Walsall or Wolverhampton)
+
+```{r fill missing data, echo=FALSE}
+ library(tidyr)
+dirty_data <- read.csv("~/Documents/ANLY 510/dirty_data.csv")
+ 
+ dirty_frame= dirty_data
+
+ data_filled=fill(dirty_data, Area, .direction = c("down"))
+data_filled
+ 
+```
+ ##Remove special characters, padding (the white space before and after the text) from Street 1 and Street 2 variables. Make sure the first letters of street names are capitalized and the street denominations are following the same standard (for example, all streets are indicated as “str.”, avenues as “ave.”, etc.
+```{r Removes Special Characters, include=FALSE}
+
+ data_filled$Street = gsub("[^A-Za-z ]", " ",data_filled$Street)
+ data_filled$Street = gsub("(?<=[\\s])\\s*|^\\s+|\\s+$", "", data_filled$Street, perl=TRUE)
+ data_filled$Street
+ data_filled$Street.2 = gsub("[^A-Za-z ]", " ", data_filled$Street.2)
+ data_filled$Street.2 = gsub("(?<=[\\s])\\s*|^\\s+|\\s+$", "", data_filled$Street.2, perl=TRUE)
+ data_filled$Street.2
+ 
+ data_filled$Street = gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", data_filled$Street, perl=TRUE)
+ data_filled$Street.2 =  gsub("(^|[[:space:]])([[:alpha:]])", "\\1\\U\\2", data_filled$Street.2, perl=TRUE)
+ 
+ install.packages('gsubfn')
+ library('gsubfn')
+ 
+ patterns     <- c("Lane", "Road", "Avenue", "Green", "Hospital", "Village", "Center", "Drive", "Circle", "Park","Street")
+ replacements <- c("Lan.",  "Rd.", "Ave.", "Gr.","Hosp.","Vil.","Ctr.", "Dr.", "Cr.","Pk.","Str.")
+
+data_filled$Street = gsubfn("\\b\\w+\\b", as.list(setNames(replacements, patterns)), data_filled$Street)
+data_filled$Street.2 =  gsubfn("\\b\\w+\\b", as.list(setNames(replacements, patterns)), data_filled$Street.2)
+```
+ 
+ 
